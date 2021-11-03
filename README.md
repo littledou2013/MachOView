@@ -2,19 +2,25 @@
  ### Crash解决
  
  环境：
+ 
  Mac OS: 1.5.2 
+ 
  XCode: 13.1
 
 编译和运行遇到问题：
 
 1）macOS not find
+
 解决方法：target --> build setting --> base SDK 设置为支持的版本
 
 2）string can't find
+
 解决方法：target --> build Phases --> Link Binary 添加libc++.tbd
 
 3）```- (void)writeString:(NSString *)str toFile:(FILE *)pFile```运行崩溃
+
 解决方法：
+
 ```
 - (void)writeString:(NSString *)str toFile:(FILE *)pFile
 {
