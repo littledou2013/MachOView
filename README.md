@@ -1,3 +1,49 @@
+
+ ### Crash解决
+ 
+ 环境：
+ Mac OS: 1.5.2 
+ XCode: 13.1
+
+编译和运行遇到问题：
+
+1）macOS not find
+解决方法：target --> build setting --> base SDK 设置为支持的版本
+
+2）string can't find
+解决方法：target --> build Phases --> Link Binary 添加libc++.tbd
+
+3）```- (void)writeString:(NSString *)str toFile:(FILE *)pFile```运行崩溃
+解决方法：
+```
+- (void)writeString:(NSString *)str toFile:(FILE *)pFile
+{
+    if (str) { // 对str做判断
+        fwrite(CSTRING(str), [str length] + 1, 1, pFile);
+    }
+}
+```
+
+4）```setHidden:```运行崩溃
+
+解决方法：
+
+```- (void)updateStatus: (NSString *)status
+{
+    dispatch_async(dispatch_get_main_queue(), ^{ // 放在主线程执行
+        NSNotificationCenter * nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:MVThreadStateChangedNotification
+                          object:self
+                        userInfo:[NSDictionary dictionaryWithObject:status forKey:MVStatusUserInfoKey]];
+    });
+  
+}
+```
+
+
+这些修改已经在develop分支上提交，develop分支现在可运行成功。
+
+### 官方介绍
    _____                .__     ____________   ____.__               
   /     \ _____    ____ |  |__  \_____  \   \ /   /|__| ______  _  __
  /  \ /  \\__  \ _/ ___\|  |  \  /   |   \   Y   / |  |/ __ \ \/ \/ /
