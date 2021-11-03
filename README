@@ -24,23 +24,7 @@
 ```
 
 4）```setHidden:```运行崩溃
-
 解决方法：
-
-```- (void)updateStatus: (NSString *)status
-{
-    dispatch_async(dispatch_get_main_queue(), ^{ // 放在主线程执行
-        NSNotificationCenter * nc = [NSNotificationCenter defaultCenter];
-        [nc postNotificationName:MVThreadStateChangedNotification
-                          object:self
-                        userInfo:[NSDictionary dictionaryWithObject:status forKey:MVStatusUserInfoKey]];
-    });
-  
-}
-```
-
-
-这些修改已经在develop分支上提交，develop分支现在可运行成功。
 
 
  
